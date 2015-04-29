@@ -55,7 +55,7 @@ print Po2
 
 To4 = To4_max
 
-for Arat in np.linspace(1.0,10,100,endpoint=True):
+for Arat in np.arange(1.1,10.1,0.1):
     print '--------A/A*--------'
     print Arat
     M = Symbol('M')
@@ -70,13 +70,50 @@ for Arat in np.linspace(1.0,10,100,endpoint=True):
     print 'P04/P4 '
     print P4rat
     u4 = M4*sqrt(gamma1*R*T4)
-    print 'U4 '
+    print 'u4 '
     print u4
     T2 = Symbol('T2')
     T_solve = solve(((sqrt(gamma1*R*(To2-T2))*(2/(gamma1-1))*(T4+((u4**2)/R)))/u4-(gamma1*(To2-T2)*(2/(gamma1-1))))-T2,T2)
     T2 = T_solve[1]
     print 'T2 '
     print T2
+
+    M2 = Symbol('M2')
+    M2_solve =  solve(1 + ((gamma1-1)/2)*(M2**2)-(To2/T2),M2)
+    M2 = M2_solve[1]
+    print 'M2'
+    print M2
+    P2 = Po2/((To2/T2)**(gamma1/(gamma1-1)))
+    print 'P2'
+    print P2
+    u2 = M2*sqrt(gamma1*R*T2)
+    print 'u2'
+    print u2
+
+    P4 = Symbol('P4')
+    P4_solve = solve(((u2*P2/T2)/(u4*P4/T4)) - Arat,P4)
+    P4 = P4_solve[0]
+    print 'P4'
+    print P4
+    Po4 = P4*P4rat
+    print 'Po4 '
+    print Po4
+
+    Po6 = Po4
+    To6 = To4
+    P6 = Pa
+
+    M6 = Symbol('M6')
+    M6_solve =  solve((1 + ((gamma1-1)/2)*(M6**2))**(gamma1/(gamma1-1))-(Po6/P6),M6)
+    M6 = M6_solve[1]
+    print 'M6'
+    print M6
+    T6 = To6/(1+((gamma1-1)/2)*M6**2)
+    print 'T6'
+    print T6
+    u6 = M6*sqrt(gamma1*R*T6)
+    
+    
 
     
 '''		
