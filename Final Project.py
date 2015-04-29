@@ -21,7 +21,7 @@ Cp1 = (gamma1/(gamma1-1))*R/1000
 Ma=4.0
 Fst=0.06
 #hc=44000
-A6=1.0
+A6=0.7
 
 #Efficiencies
 rd=(1-0.075*(Ma-1)**(1.35))
@@ -35,7 +35,7 @@ TSFClist = []
 nthlist = []
 nplist = []
 nolist = []
-Blist = []
+Aratlist = []
 Thrustlist = []
 
 #Flow Conditions
@@ -120,6 +120,8 @@ for Arat in np.arange(1.1,10.1,0.1):
     M6_solve =  solve(1 + ((gamma1-1)/2)*(M6**2)-(To6/T6),M6)
     M6 = M6_solve[1]
     u6 = M6*sqrt(gamma1*R*T6)
+    print "M6"
+    print M6
     Aexitrat = ((1/M6)*((2/(gamma1+1)*(1+(((gamma1-1)/2)*M6**2)))**((gamma1+1)/(2*(gamma1-1)))))
     print 'Aexit/A*'
     print Aexitrat
@@ -130,61 +132,60 @@ for Arat in np.arange(1.1,10.1,0.1):
     Thrust = ma*(u6-u)
     print 'Thrust'
     print Thrust
-    
-
-'''		
-    I = B*(u9-u)+((1+Fb)*u7-u)
-    TSFC = Fb/I
-    Pav=((1+Fb)*(u7**2)/2 + B*(u9**2)/2 - (B+1)*(u**2)/2)
-    Pin=Fb*hc*1000
-    wp=I*u
+    		
+    I = Thrust/ma
+    TSFC = 1.06/I
+    Pav = ma*((1.06)*((u6**2)/2)-((u**2)/2))
+    Pin=ma*1.06*44000*1000
+    wp=Thrust*u
     nth=Pav/Pin
-    np=wp/Pin
+    np=wp/Pav
     no=nth*np
-    if B == B:
-        print 'nth '
-        print nth
-        print 'Pav '
-        print Pav
-	
+
+    Thrustlist.append([Thrust])	
     Ilist.append([I])
     TSFClist.append([TSFC])
     nthlist.append([nth])
     nplist.append([np])
     nolist.append([no])
-    Blist.append([B])
+    Aratlist.append([Arat])
 	
     
 # Now to plot everything!
 plt.figure(1)
-plt.plot(Blist, Ilist)
-plt.xlabel('Bypass Ratio, B')
+plt.plot(Aratlist, Ilist)
+plt.xlabel('A4/A* Ratio')
 plt.ylabel('Specific Thrust, I')
-plt.title('I vs B')
+plt.title('I vs A4/A*')
 
 plt.figure(2)
-plt.plot(Blist, TSFClist)
-plt.xlabel('Bypass Ratio, B')
+plt.plot(Aratlist, TSFClist)
+plt.xlabel('A4/A* Ratio')
 plt.ylabel('TSFC')
-plt.title('TSFC vs B')
+plt.title('TSFC vs A4/A*')
 
 plt.figure(3)
-plt.plot(Blist, nthlist)
-plt.xlabel('Bypass Ratio, B')
+plt.plot(Aratlist, nthlist)
+plt.xlabel('A4/A* Ratio')
 plt.ylabel('Thermal Efficiency, nth')
-plt.title('Thermal Efficiency vs B')
+plt.title('Thermal Efficiency vs A4/A*')
 
 plt.figure(4)
-plt.plot(Blist, nplist)
-plt.xlabel('Bypass Ratio, B')
+plt.plot(Aratlist, nplist)
+plt.xlabel('A4/A* Ratio')
 plt.ylabel('Propulsive Efficiency, np')
-plt.title('Propulsive Efficiency vs B')
+plt.title('Propulsive Efficiency vs A4/A*')
 
 plt.figure(5)
-plt.plot(Blist, nolist)
-plt.xlabel('Bypass Ratio, B')
+plt.plot(Aratlist, nolist)
+plt.xlabel('A4/A* Ratio')
 plt.ylabel('Overall Efficiency, no')
-plt.title('Overall Efficiency vs B')
+plt.title('Overall Efficiency vs A4/A*')
+
+plt.figure(6)
+plt.plot(Aratlist, Thrustlist)
+plt.xlabel('A4/A* Ratio')
+plt.ylabel('Thrust')
+plt.title('Thrust vs A4/A*')
 
 plt.show()
-'''
