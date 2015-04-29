@@ -21,9 +21,12 @@ Cp1 = (gamma1/(gamma1-1))*R/1000
 Ma=4.0
 Fst=0.06
 #hc=44000
+A6=1.0
 
 #Efficiencies
 rd=(1-0.075*(Ma-1)**(1.35))
+print 'rd'
+print rd
 
 #Setup Arrays for Graphs
 Mlist = []
@@ -33,6 +36,7 @@ nthlist = []
 nplist = []
 nolist = []
 Blist = []
+Thrustlist = []
 
 #Flow Conditions
 Toa = Ta*(1 + ((gamma1-1)/2)*Ma**2)
@@ -49,7 +53,7 @@ print u
 To2=Toa
 print 'To2 '
 print To2
-Po2=Pa*rd
+Po2=Poa*rd
 print 'Po2 '
 print Po2
 
@@ -100,22 +104,34 @@ for Arat in np.arange(1.1,10.1,0.1):
     print Po4
 
     Po6 = Po4
+    print 'Po6'
+    print Po6
     To6 = To4
+    print 'To6'
+    print To6
     P6 = Pa
-
-    M6 = Symbol('M6')
-    M6_solve =  solve((1 + ((gamma1-1)/2)*(M6**2))**(gamma1/(gamma1-1))-(Po6/P6),M6)
-    M6 = M6_solve[1]
-    print 'M6'
-    print M6
-    T6 = To6/(1+((gamma1-1)/2)*M6**2)
+    print 'P6'
+    print P6
+    
+    T6 = To6/((Po6/P6)**((gamma1-1)/gamma1))
     print 'T6'
     print T6
+    M6 = Symbol('M6')
+    M6_solve =  solve(1 + ((gamma1-1)/2)*(M6**2)-(To6/T6),M6)
+    M6 = M6_solve[1]
     u6 = M6*sqrt(gamma1*R*T6)
-    
+    Aexitrat = ((1/M6)*((2/(gamma1+1)*(1+(((gamma1-1)/2)*M6**2)))**((gamma1+1)/(2*(gamma1-1)))))
+    print 'Aexit/A*'
+    print Aexitrat
+    A1 = 1/Aexitrat
+    print 'A1=A2=A5'
+    print A1
+    ma = (Pa*1000/(R*Ta))*u*A1
+    Thrust = ma*(u6-u)
+    print 'Thrust'
+    print Thrust
     
 
-    
 '''		
     I = B*(u9-u)+((1+Fb)*u7-u)
     TSFC = Fb/I
