@@ -341,4 +341,17 @@ plt.xlabel('Ma')
 plt.ylabel('Overall Efficiency, no')
 plt.title('Overall Efficiency vs Ma')
 
+plt.figure(4)
+plt.subplot(211)
+plt.plot(Mlist, fblist)
+#plt.xlabel('Ma')
+plt.ylabel('Fuel/Air, Fb')
+plt.title('Fuel/Air Ratio vs Ma')
+
+plt.subplot(212)
+plt.plot(Mlist, rblist)
+plt.xlabel('Ma')
+plt.ylabel('Burner Pressure Ratio, rb')
+plt.title('Burner Pressure Ratio vs Ma')
+
 plt.show()
