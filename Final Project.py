@@ -1,4 +1,7 @@
-#Turbojet Engine Problem 1
+#EAS 4300 Final Project
+#Grayson Savage
+#G2434773
+
 from sympy.solvers import solve
 from sympy import Symbol, sqrt
 import math
